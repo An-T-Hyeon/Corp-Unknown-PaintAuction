@@ -8,7 +8,7 @@
     version: dobby.dev.0.1
 */
 
-$("#btn-refresh").click(() => {
+$("#btn-refresh").click(function(){
   localStorage.clear();
   location.reload();
 });
@@ -16,7 +16,7 @@ $("#btn-refresh").click(() => {
 /**************************************************/
 // Sheet
 
-const readSheet = async sheetId => {
+async function readSheet(sheetId){
   let sheet = 1;
   sheets = {};
 
@@ -24,17 +24,17 @@ const readSheet = async sheetId => {
     // retrieve all sheets until not exist
     while (true) {
       const url = `https://spreadsheets.google.com/feeds/list/${sheetId}/${sheet}/public/values?alt=json`;
-      const data = await $.getJSON(url, data => {
+      const data = await $.getJSON(url, function(data){
         return data;
       });
 
-      sheets[data.feed.title.$t] = data.feed.entry.map(entry => {
+      sheets[data.feed.title.$t] = data.feed.entry.map(function(entry){
         const colnames = Object.keys(entry)
-          .filter(col => col.startsWith("gsx"))
-          .map(col => col.slice(4));
+          .filter(function(col){return col.startsWith("gsx")})
+          .map(function(col){return col.slice(4)});
 
         let parsed = {};
-        colnames.forEach(col => {
+        colnames.forEach(function(col){
           parsed[col] = entry["gsx$" + col].$t;
         });
         return parsed;
@@ -47,10 +47,11 @@ const readSheet = async sheetId => {
   return sheets;
 };
 
+
 /**************************************************/
 // Time
 
-let remainingTime = () => {
+function remainingTime() {
   let end = new Date();
   end.setHours(24,0,0,0);
   var now = new Date().getTime();
@@ -66,7 +67,7 @@ let remainingTime = () => {
   ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 };
 
-let remainingDate = () => {
+function remainingDate() {
   let tmp_info = new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" });
   let tmp_date = new Date(tmp_info);
   tmp_date.setDate(1);
@@ -79,7 +80,7 @@ let remainingDate = () => {
   return last_date - today_date;
 };
 
-let getDate = () => {
+function getDate(){
   let tmp_main = new Date().toLocaleString("en-US", {
     timeZone: "Asia/Seoul"
   });
@@ -87,26 +88,31 @@ let getDate = () => {
   return date_main;
 };
 
-let todayPoint = (initial, delta) => {
+function todayPoint(initial, delta) {
   let date = getDate();
-  return initial + delta * (date - 1);
+  return (initial + delta * (date - 1)).toLocaleString();
 };
 
-let tomorrowPoint = (initial, delta) => {
-  let date = getDate();
-  let remaining = remainingDate();
+function tomorrowPoint(initial, delta){
+  var date = getDate();
+  var remaining = remainingDate();
 
   if (remaining === 0) {
-    return initial;
+    return initial.toLocaleString();
   }
-  return initial + delta * date;
+  return (initial + delta * date).toLocaleString();
 };
 
 /**************************************************/
 // Updates
-
+function numberWithCommas(x) {
+  x = Math.round(x);
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
 // updateTime
-let updateTime = () => {
+function updateTime(){
   // update time
   $("#elapsed-date").text(remainingDate());
   $("#elapsed-time").text(remainingTime());
@@ -115,9 +121,9 @@ let updateTime = () => {
 };
 
 // load
-let load = () => {
+function load(){
   // update main paint and paints
-  readSheet("14RmJK2UOKFodgvEdEKwFCem8jshtdEuUskXQZdlsIsg").then(sheets => {
+  readSheet("14RmJK2UOKFodgvEdEKwFCem8jshtdEuUskXQZdlsIsg").then(function(sheets){
     console.log(sheets);
 
     $("#paints").html("");
@@ -146,27 +152,27 @@ let load = () => {
     <div class="row" style="padding-left: 0%;padding-right: 0%;margin-top: 2em;">
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <h3 style="color: blue;">${info["오늘점수"]}</h3>
-            <h4><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${todayPoint(
+            <h4><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${numberWithCommas(todayPoint(
               main["초기값"],
               main["변화값"]
-            )}</h4>
+            ))}</h4>
         </div>
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 tomorrow-point">
             <h3 style="color: red;">${info["내일점수"]}</h3>
-            <h4><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${tomorrowPoint(
+            <h4><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${numberWithCommas(tomorrowPoint(
               main["초기값"],
               main["변화값"]
-            )}</h4>
+            ))}</h4>
         </div>
     </div>
     <div class="row" style="padding-left: 0%;padding-right: 0%;margin-top: 2em;">
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <h3 style="color: blue;">${"오늘 점수 총합"}</h3>
-            <h4><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${todaySum}</h4>
+            <h4><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${todaySum.toLocaleString()}</h4>
         </div>
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 tomorrow-point">
             <h3 style="color: red;">${"내일 점수 총합"}</h3>
-            <h4><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${tomorrowSum}</h4>
+            <h4><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${tomorrowSum.toLocaleString()}</h4>
         </div>
     </div>
     <p style="margin-top: 1em;">Contact us: ${info["콘텍트"]}</p>
@@ -178,39 +184,68 @@ let load = () => {
         </div>
     </div>`);
 
-    sheets.Paints.forEach((paint, index) => {
+    sheets.Paints.forEach(function(paint, index){
       if (index === 0) return;
 
       const title = paint["제목"];
       const url = paint["그림url"];
       const initial = paint["초기값"];
       const delta = paint["변화값"];
+      var point = todayPoint(initial,delta);
+      var tmrwpoint = tomorrowPoint(initial,delta);
 
-      const paint_html = `<div class="col-md-6 col-lg-4" id="card-${index}">
+      
+
+      const paint_html = `<div class="col-md-6 col-lg-3" id="card-${index}">
           <div class="card border-0"><div class="secondborder scale-on-hover"><img class="card-img-top w-100 d-block card-img-top " id="paint-${index}" src="${url}" alt="Card Image" style="cursor: pointer;"></div>
               <div class="card-body">
                   <h5>${title}</h5>
                   <div class="row">
                       <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                          <h6><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${todayPoint(
-                            initial,
-                            delta
-                          )}</h6>
+                          <h6><i class="fa fa-circle" style="color: blue;"></i>&nbsp;${numberWithCommas(point)}</h6>
                       </div>
                       <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                          <h6><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${tomorrowPoint(
-                            initial,
-                            delta
-                          )}</h6>
+                          <h6><i class="fa fa-arrow-up" style="color: red;"></i>&nbsp;${numberWithCommas(tmrwpoint  )}</h6>
                       </div>
                   </div>
               </div>
           </div>
+      </div>
+      <div id="footer" class="navbar navbar-dark navbar-expand-lg bg-white portfolio-navbar gradient" style="background: linear-gradient(120deg,#080808,#444);">
+        <div style="padding-left:20%;">Today's total : ${todaySum.toLocaleString()}</div>
+        <div style="padding-left:30%;">Tomorrow's total : ${tomorrowSum.toLocaleString()}</div>
       </div>`;
+
 
       $("#paints").append(paint_html);
 
-      $(`#paint-${index}`).click(addInteraction(index));
+      $(`#paint-${index}`).addClass("col-md-12");
+
+      $(`#paint-${index}`).bind("click", function(){
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = title;
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        modal.addEventListener("click", function(){
+          modal.style.display = "none";
+        })
+
+      })
+
+
+      
+      
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+
+      // $(`#paint-${index}`).click($(`#card-${index}`).scrollIntoView(true));
     });
   });
 };
@@ -219,10 +254,28 @@ let load = () => {
 // Interactions
 
 // addInteraction
-let addInteraction = index => () => {
+let addInteraction = function(index) {return function() {
   $(`#card-${index}`).toggleClass("col-md-6");
-  $(`#card-${index}`).toggleClass("col-lg-4");
+  $(`#card-${index}`).toggleClass("col-lg-3");
 
   $(`#card-${index}`).toggleClass("col-md-12");
   $(`#card-${index}`).toggleClass("col-lg-12");
-};
+  $(`#card-${index}`).scrollIntoView(true);
+}};
+
+function moveToCenter(index){
+  $(`#card-${index}`).scrollIntoView({
+      behavior: 'auto',
+      block: 'center',
+      inline: 'center'
+  });
+  $(`#paint-${index}`).scrollIntoView({
+    behavior: 'auto',
+    block: 'center',
+    inline: 'center'
+  });
+  // const elementRect = obj.getBoundingClientRect();
+  // const absoluteElementTop = elementRect.top + window.pageYOffset;
+  // const middle = absoluteElementTop - (window.innerHeight / 2);
+  // window.scrollTo(0, middle);
+}
