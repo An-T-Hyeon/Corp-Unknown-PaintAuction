@@ -145,7 +145,7 @@ function load(){
 
     $("#main-paint").html(`<h1>${main["제목"]}</h1>
     <div class="row">
-        <div class="col"><div class="secondborder"><img src="${
+        <div class="col"><div class="secondborder2 scale-on-hover"><img src="${
           main["그림url"]
         }" style="max-width: 100%;"></div></div>
     </div>
@@ -197,7 +197,7 @@ function load(){
       
 
       const paint_html = `<div class="col-md-6 col-lg-3" id="card-${index}">
-          <div class="card border-0"><div class="secondborder scale-on-hover"><img class="card-img-top w-100 d-block card-img-top " id="paint-${index}" src="${url}" alt="Card Image" style="cursor: pointer;"></div>
+          <div class="card border-0"><div class="fourthborder"><div class="thirdborder"><div class="secondborder scale-on-hover"><img class="card-img-top w-100 d-block card-img-top " id="paint-${index}" src="${url}" alt="Card Image" style="cursor: pointer;"></div></div></div>
               <div class="card-body">
                   <h5>${title}</h5>
                   <div class="row">
@@ -238,10 +238,6 @@ function load(){
         })
 
       })
-
-
-      
-      
 
 // Get the image and insert it inside the modal - use its "alt" text as a caption
 

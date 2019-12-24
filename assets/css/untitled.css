@@ -13,33 +13,100 @@
 }
 
 .secondborder {
-  background-color: #7d7d7d;
-  background-image: url(https://cyndikirkpatrick.com/wp-content/uploads/2016/06/eos_autumn3.png);
-  display: block;
-  padding: 4%;
-  margin: 1% 0 1% 0;
-  border-radius: 7px 7px 7px 7px;
-  -moz-border-radius: 7px 7px 7px 7px;
-  -webkit-border-radius: 7px 7px 7px 7px;
-  border: 1px solid #000;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #ddc;
+  border: solid 4vmin #eee;
+  border-bottom-color: #fff;
+  border-left-color: #eee;
+  border-radius: 1px;
+  border-right-color: #eee;
+  border-top-color: #ddd;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25) inset, 0 5px 10px 5px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  display: inline-block;
+  /* margin: 2vh 1vw; */
+  /* height: 80vh; */
+  padding: 0.5vmin;
+  position: relative;
+  text-align: center;
+}
+
+.secondborder2 {
+  background-color: #ddc;
+  border: solid 5vmin #eee;
+  border-bottom-color: #fff;
+  border-left-color: #eee;
+  border-radius: 2px;
+  border-right-color: #eee;
+  border-top-color: #ddd;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25) inset, 0 5px 10px 5px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  display: inline-block;
+  /* margin: 2vh 1vw; */
+  /* height: 80vh; */
+  padding: 1vmin;
+  position: relative;
+  text-align: center;
+}
+
+.secondborder2::before {
+  border-radius: 2px;
+  bottom: -2vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25) inset;
+  content: "";
+  left: -2vmin;
+  position: absolute;
+  box-sizing: border-box;
+  right: -2vmin;
+  top: -2vmin;
+  padding: 0;
+}
+.secondborder2::after {
+  display:block;
+  border-radius: 2px;
+  bottom: -2.5vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+  left: -2.5vmin;
+  position: absolute;
+  box-sizing: border-box;
+  right: -2.5vmin;
+  top: -2.5vmin;
+  padding: 0;
+}
+
+.secondborder::before {
+  border-radius: 1px;
+  bottom: -2vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25) inset;
+  content: "";
+  left: -2vmin;
+  position: absolute;
+  box-sizing: border-box;
+  right: -2vmin;
+  top: -2vmin;
+  padding: 0;
+}
+.secondborder::after {
+  display:block;
+  border-radius: 1px;
+  bottom: -2vmin;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+  left: -2vmin;
+  position: absolute;
+  box-sizing: border-box;
+  right: -2vmin;
+  top: -2vmin;
+  padding: 0;
 }
 
 img{
-  background-color: #7d7d7d;
-  background-image: url(https://cyndikirkpatrick.com/wp-content/uploads/2016/06/eos_autumn3b.png);
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  size: cover;
-  padding: 2%;
-  margin: 0;
-  border-radius: 7px 7px 7px 7px;
-  -moz-border-radius: 7px 7px 7px 7px;
-  -webkit-border-radius: 7px 7px 7px 7px;
-  border: 1px solid #61201e;
-  box-shadow: -webkit-box-shadow: 0px 0px 60px -9px rgba(0,0,0,1);
-  -moz-box-shadow: 0px 0px 60px -9px rgba(0,0,0,1);
-  box-shadow: 0px 0px 60px -9px rgba(0,0,0,1);
+  border:solid 2px;
+  width:0;
+  border-bottom-color:#ffe;
+  border-left-color:#eed;
+  border-right-color:#eed;
+  border-top-color:#ccb;
+  height:100%;
+  width:100%;
+  padding: 10px;
+  margin:0;
 }
